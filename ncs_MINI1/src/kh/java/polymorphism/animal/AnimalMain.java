@@ -29,7 +29,7 @@ public class AnimalMain {
 	public void test8_5() {
 		Flyable f = new Eagle();
 		
-		f.fly();
+		f.fly("파닥파닥");
 		((Eagle)f).attack();
 	}
 	
