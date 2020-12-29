@@ -4,7 +4,7 @@ public class Eagle extends Animal implements Flyable{
 
 	@Override
 	public void fly(String sound) {
-		System.out.println("날아라 꽈악!"+ sound);
+		System.out.println("날아라 꽈악! "+ sound);
 		
 	}
 
