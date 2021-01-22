@@ -36,3 +36,4 @@ from tbl_files;
 --답
 select fileno, substr(filepath, instr(filepath, '\',-1)+1) 파일명
 from tbl_files;
+
