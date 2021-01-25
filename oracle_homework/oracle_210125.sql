@@ -108,11 +108,6 @@ select emp_name 직원명,
             when substr(emp_no, 8, 1)  in ('3','4') then to_char(extract(year from sysdate)-(substr(emp_no, 1,2)+2000))
            end 만나이
 from employee;
-
-select decode(substr(emp_no, 8,1), 1, 1900, 2, 1900, 2000)
-from employee;
-
-select * from employee;
 /*
 11, 직원들의 입사일로 부터 년도만 가지고, 각 년도별 입사인원수를 구하시오.
 아래의 년도에 입사한 인원수를 조회하시오. 마지막으로 전체직원수도 구하시오 => decode, sum 사용
