@@ -11,9 +11,11 @@ select C.class_no 수업번호,
            C.class_name 수업명,
            P.professor_no 교수번호,
            P.professor_name 교수명
-from tb_class C
-    join tb_professor P
-        on C.department_no = P.department_no;
+from tb_class_professor cp
+    join tb_class c
+        on c.class_no=cp.class_no
+    join tb_professor p
+       on p.professor_no=cp.professor_no;
 
 --3. 송박선 학생의 모든 학기 과목별 점수를 조회(학기, 학번, 학생명, 수업명, 점수)
 select G.term_no 학기,
