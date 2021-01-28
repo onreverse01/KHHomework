@@ -24,9 +24,9 @@ select G.term_no 학기,
            c.class_name 수업명,
            g.point 점수
 from tb_student S
-    right join tb_grade G
+    join tb_grade G
         on S.student_no=G.student_no
-    right join tb_class C
+    join tb_class C
         on G.class_no=C.class_no
 where student_name='송박선';
 
