@@ -1,3 +1,5 @@
+--04_워크북[DDL]
+
 --1번
 create table TB_CATEGORY(
     NAME varchar2(10),
@@ -122,3 +124,76 @@ order by count(student_no) desc
 )E
 where rownum between 1 and 3;
 -- 최근 16년 기준 똑같이 뜬다. 3년은 하나도 안나온다.
+
+--05_워크북[DML]
+
+--1번
+insert into tb_class_type
+values ('01','전공필수');
+insert into tb_class_type
+values ('02','전공선택');
+insert into tb_class_type
+values ('03','교양필수');
+insert into tb_class_type
+values ('04','교양선택');
+insert into tb_class_type
+values ('05','논문지도');
+commit;
+
+--2번
+create table TB_학생일반정보
+as
+select student_no 학번,
+           student_name 이름,
+           student_address 주소
+from tb_student;
+
+--3번
+create table TB_국어국문학과
+as
+select student_no 학번,
+           student_name 학생이름,
+           to_char(to_date(substr(student_ssn,1,2),'rr'), 'yyyy') 출생년도,
+           (
+            select professor_name
+            from tb_professor
+            where s.coach_professor_no=professor_no
+           ) 교수이름
+from tb_student S
+where department_no=(select department_no 
+                                  from tb_department
+                                  where department_name='국어국문학과');
+
+--4번
+update tb_department
+set capacity = capacity+round(capacity*0.1);
+
+--5번
+update tb_student
+set STUDENT_ADDRESS = '서울시 종로구 숭인동 181-21'
+where student_no='A413042';
+
+--6번
+update tb_student
+set student_ssn = substr(student_ssn,1,6);
+
+--7번
+update tb_grade
+set point = '3.5'
+where student_no in (select student_no
+                                from tb_student
+                                where student_name='김명훈'
+                                and department_no=(select department_no
+                                                                from tb_department
+                                                                where department_name='의학과')
+                                )
+and class_no=(select class_no
+                        from tb_class
+                        where class_name='피부생리학');
+
+--8번
+delete from tb_grade
+where student_no in (select student_no 
+                            from tb_student
+                            where absence_yn='Y');
+                            
