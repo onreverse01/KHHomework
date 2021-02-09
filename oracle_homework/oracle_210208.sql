@@ -16,7 +16,7 @@ declare
     cnt number :=0;
 begin
     loop
-        rnd := trunc(dbms_random.value(0, 999));
+        rnd := trunc(dbms_random.value(0, 1000));
         dbms_output.put_line(n || ' : ' || rnd);
         insert into tb_number
         values(seq_tb_num_id.nextval, rnd,sysdate);
