@@ -32,3 +32,4 @@ select * from tb_number;
 
 --drop table tb_number;
 --drop sequence seq_tb_num_id;
+                                       
