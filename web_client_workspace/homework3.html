@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza</title>
+</head>
+<body>
+    <form action="">
+        <label for="memberName">고객명:</label>
+        <input type="text" name="memberName" id="memberName">
+        <br><br>
+        
+        <label for="memberTel">전화번호(필수) : </label>
+        <input type="tel" name="memberTel" id="memberTel" required>
+        <br><br>
+
+        <label for="memberEmail">E-mail : </label>
+        <input type="email" name="memberEmail" id="memberEmail">
+        <br><br>
+
+        <label for="pizzaSelect">피자선택(필수) : </label>
+        <select name="pizzaSelect" id="pizzaSelect" required>
+            <option value="" selected>피자를 선택하세요</option>
+            <option value="pepe">페페로니피자</option>
+            <option value="pepe">불고기피자</option>
+            <option value="pepe">감자스테이크큐브피자</option>
+        </select>
+        <br><br>
+
+        <fieldset>
+            <legend>피자 사이즈(필수)</legend>
+            <input type="radio" name="pizzaSize" id="pizzaSize-small" value="small" required>
+            <label for="pizzaSize-small">Small</label>
+            <br><br>
+            <input type="radio" name="pizzaSize" id="pizzaSize-medium" value="medium">
+            <label for="pizzaSize-medium">Medium</label>
+            <br><br>
+            <input type="radio" name="pizzaSize" id="pizzaSize-large" value="large">
+            <label for="pizzaSize-large">Large</label>
+            <br><br>
+        </fieldset>
+        <fieldset>
+            <legend>토핑선택</legend>
+            <input type="checkbox" name="pizzaTopping" id="pizzaTopping-bacon" value="bacon">
+            <label for="pizzaTopping-bacon">베이컨</label>
+            <br><br>
+            <input type="checkbox" name="pizzaTopping" id="pizzaTopping-cheese" value="cheese">
+            <label for="pizzaTopping-cheese">치즈</label>
+            <br><br>
+            <input type="checkbox" name="pizzaTopping" id="pizzaTopping-onion" value="onion">
+            <label for="pizzaTopping-onion">양파</label>
+            <br><br>
+            <input type="checkbox" name="pizzaTopping" id="pizzaTopping-mushroom" value="mushroom">
+            <label for="pizzaTopping-mushroom">버섯</label>
+            <br><br>
+        </fieldset>
+        <br><br>
+
+        <label for="deliveryTime">희망 배송 시간 : </label>
+        <input type="time" name="deliveryTime" id="deliveryTime">
+        <br><br>
+
+        <label for="etc">배송시 요청사항 : </label>
+        <textarea name="etc" id="etc" cols="20" rows="3"></textarea>
+        <br><br>
+
+        <input type="submit" value="주문하기">
+    </form>
+</body>
+</html>
