@@ -47,12 +47,11 @@
 	<button onclick="addFunc();">실행</button>
 	<script>
 		function mkAddFunc(){
+			var sum = 0;
 			return function(){
-				var sum = 0;
-				var num = parseInt(document.getElementById("myadder").value);
-				for(var i = 0; i<=num; i++){
-					sum +=i;
-				}
+				var num = Number(document.getElementById("myadder").value);
+				if(isNaN(num)) return;
+				sum +=num;
 				alert(sum);
 			};
 		}
