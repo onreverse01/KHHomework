@@ -10,28 +10,36 @@
     <h1>@실습문제 - 객체배열</h1>
     <input type="button" value="실행" onclick="test1();">
     <script>
-    function test1(){
-        //1. 객체배열 생성 및 요소추가
-        var students = [];
-        students.push(new Student('홍길동', 45, 76, 34, 33, 56));
-        students.push(new Student('유관순', 76, 34, 54, 56, 22));
-        students.push(new Student('임꺽정', 43, 77, 12, 76, 34));
-
-        //2. 반복문을 통해 객체배열 순회. 요소별 toString메소드 호출하기
-        students.forEach(function(student, i){
-            console.log(student.toString());
-        });
-    }
     /**
-     * Student 생성자 함수 선언
+     * Student생성자함수를 통해 점수데이터를 관리하세요.
+     * - java
+     * - oracle
+     * - html5
+     * - css3
+     * - javascript
+     * - getSum // 메소드
+     * - getAvg // 메소드
+     * - toString
      */
+    function test1(){
+        var arr = [
+            new Student('홍길동', 45, 76, 34, 33, 56),
+            new Student('유관순', 76, 34, 54, 56, 22),
+            new Student('임꺽정', 43, 77, 12, 76, 34)
+        ]
+        var result = "";
+        for(var i in arr){
+            result += arr[i].toString()+"\n";
+        }
+        console.log(result);
+    }
     function Student(name, java, oracle, html5, css3, javascript){
         this.name = name;
-        this.java=java;
-        this.oracle=oracle;
-        this.html5=html5;
-        this.css3=css3;
-        this.javascript=javascript;
+        this.java = java;
+        this.oracle = oracle;
+        this.html5 = html5;
+        this.css3 = css3;
+        this.javascript = javascript;
         //prototype 적용이전
         // this.getSum = function(){
         //     return this.java + this.oracle + this.html5 + this.css3 + this.javascript;
@@ -44,7 +52,6 @@
         //     + ", html5=" + this.html5 + ", css3=" + this.css3 + ", javascript=" + this.javascript
         //     + ", 총점=" + this.getSum() + ", 평점=" + this.getAvg();
         // }
-        
     }
     //prototype 적용이후
     Student.prototype.getSum = function(){
@@ -58,7 +65,6 @@
             + ", html5=" + this.html5 + ", css3=" + this.css3 + ", javascript=" + this.javascript
             + ", 총점=" + this.getSum() + ", 평점=" + this.getAvg();
     }
-
     </script>
 </body>
 </html>
