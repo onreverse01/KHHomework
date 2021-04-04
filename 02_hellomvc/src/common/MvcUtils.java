@@ -83,7 +83,7 @@ public class MvcUtils {
 		 * ...
 		 * 공식
 		 */
-		int pageStart = (cPage-1) / pageBarSize * pageBarSize + 1;
+		int pageStart = (cPage - 1) / pageBarSize * pageBarSize + 1;
 		int pageEnd = pageStart + pageBarSize - 1;
 		
 		//증감변수는 pageStart부터 시작
@@ -100,10 +100,10 @@ public class MvcUtils {
 		//2. pageNo
 		while(pageNo <= pageEnd && pageNo <= totalPage) {
 			if(pageNo == cPage) {
-				pageBar.append("<span class='cPage'>" + pageNo + "</span>");
+				pageBar.append("<span class='cPage'>" + pageNo + "</span>\n");
 			}
 			else {
-				pageBar.append("<a href='" + url + "cPage=" + pageNo + "'/>" + pageNo + "</a>\n");
+				pageBar.append("<a href='" + url + "cPage=" + pageNo + "'/>" + pageNo +"</a>\n");
 			}
 			
 			pageNo++;
@@ -115,7 +115,7 @@ public class MvcUtils {
 			
 		}
 		else {
-			pageBar.append("<a href='" + url + "cPage=" + (pageNo) + "'/></a>\n"); //이미 1이 더해진 채로 나왔기 때문에 pageNo
+			pageBar.append("<a href='" + url + "cPage=" + (pageNo) + "'/>next</a>\n"); //이미 1이 더해진 채로 나왔기 때문에 pageNo
 		}
 		/*
 			<a href='/mvc/admin/memberList?cPage=5'/>prev</a>
