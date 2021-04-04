@@ -27,6 +27,7 @@ public class Test3 {
 				}
 			}
 			System.out.println("소수다");
+			break;
 		}while(num<2);
 
 	}

@@ -55,7 +55,7 @@ public class Movie {
 	}
 
 
-
+	/*
 	public String information() {
 		String cast = "";
 		for(int i=0; i<getCasting().length; i++) {
@@ -68,6 +68,28 @@ public class Movie {
 		if(release!=null)
 			temp=temp+"\n개봉일 : "+getRelease().get(Calendar.YEAR)+"년"+getRelease().get(Calendar.MONTH)+"월"+getRelease().get(Calendar.DAY_OF_MONTH);
 		return temp;
+	}
+	*/
+	
+	public void information() {
+		System.out.println("-----------------------");
+		System.out.println("영화 : " + movieTitle);
+		System.out.println("감독 : " + director);
+		System.out.print("캐스팅 : ");
+		if (casting == null) {
+			System.out.print("null");
+		} else {
+			for (int i = 0; i < casting.length; i++) {
+				System.out.print(casting[i]);
+				if (i == casting.length - 1) {
+					System.out.println();
+				} else {
+					System.out.print(", ");
+				}
+			}
+		}
+		System.out.println("개봉날짜 : " + release);
+		System.out.println("-----------------------");
 	}
 	
 	public Movie(String movieTitle) {

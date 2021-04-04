@@ -19,7 +19,7 @@ public class Test {
         //10
         
         
-        t.test4(t);
+        t.test4(t); //쓸일이 많이 없다고 한다.
         //1000
         
         /* result
@@ -50,6 +50,7 @@ public class Test {
         this.a = 200;
         System.out.println(t.a); //10
 //        System.out.println(a); //200
+//        System.out.println(this.a); //200
     }
     public void test4(Test t) {
         t.a = 1000;

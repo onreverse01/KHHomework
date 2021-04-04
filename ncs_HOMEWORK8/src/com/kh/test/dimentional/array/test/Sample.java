@@ -21,19 +21,28 @@ public class Sample {
 		}
 		int rnum = 0;
 		int total = 0;
+		int cnt = 0;
 
 		int[][] arr = new int[3][num];
 		
-		//현재 열은 다 보여주지만, 열의 합계가 5의 배수만 X 되어있음.
 		for (int i = 0; i < arr.length; i++) {
 			for (int j = 0; j < arr[i].length; j++) {
 				rnum = rnd.nextInt(100) + 1;
 				arr[i][j] = rnum;
 				total+=arr[i][j];
-				System.out.print(arr[i][j]+" ");
 			}
-			System.out.print(total % 5 == 0 ? total + " " : "X ");
-			System.out.println();
+			if(total % 5 == 0) {
+				cnt++;
+				for(int k = 0; k < arr[i].length; k++) {
+					System.out.print(arr[i][k] + " ");
+				}
+			}
+			System.out.println("---------");
 		}
+		if (cnt==0) {
+			System.out.println("5의 배수의 합이 없습니다.");
+		}
+		
+		
 	}
 }

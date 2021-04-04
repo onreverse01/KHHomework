@@ -14,19 +14,22 @@ public class ActionBody {
 		bodyArr[3] = new Leg();
 		bodyArr[4] = new Leg();
 
-		for (Body b : bodyArr)
-			if (b instanceof Head) {
-				((Head) b).headBang();
-			}
-			else if (b instanceof Arm) {
-				((Arm) b).armSwing();
-			}
-			else if (b instanceof Leg) {
-				((Leg) b).run();
-			}
+		ActionBody ac = new ActionBody();
+		for(int i=0; i<bodyArr.length; i++){
+			ac.action(bodyArr[i]);
+		}
+			
 	}
 
 	public void action(Body body) {
-		body.action();
+		if (body instanceof Head) {
+			((Head) body).headBang();
+		}
+		else if (body instanceof Arm) {
+			((Arm) body).armSwing();
+		}
+		else if (body instanceof Leg) {
+			((Leg) body).run();
+		}
 	}
 }

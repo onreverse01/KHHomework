@@ -25,7 +25,9 @@ public class Test2 {
 			
 			i++;
 			
-			if(num==rnum)break;
+			if(num==rnum) {
+				System.out.println("정답입니다. "+i+"회 만에 정답을 맞추셨습니다.");
+				break;}
 			
 			else if(num>rnum) {
 				System.out.println("입력하신 정수값보다 큽니다.");
@@ -34,7 +36,6 @@ public class Test2 {
 				System.out.println("입력하신 정수값보다 작습니다.");
 			}
 			
-		}while(num!=rnum);
-		System.out.println("정답입니다. "+i+"회 만에 정답을 맞추셨습니다.");
+		}while(true);
 	}
 }

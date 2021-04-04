@@ -20,8 +20,10 @@ public class StaticMethod {
 	}
 	
 	//2. 첫번째 문자열의 전달받은 인덱스의 문자를 전달받은 문자로 변경하는 static 메소드
-	public static char setChar(String s, int num, char alp) {
-		return alp;
+	public static String setChar(String s, int index, char ch) {
+		char[] arr = s.toCharArray();
+		arr[index] = ch;
+		return new String(arr);
 	}
 	
 	//3. 전달한 문자열에서 영문자의 개수를 리턴하는 static 메소드

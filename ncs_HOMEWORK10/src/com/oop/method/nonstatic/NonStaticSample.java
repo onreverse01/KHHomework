@@ -1,5 +1,6 @@
 package com.oop.method.nonstatic;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class NonStaticSample {
@@ -15,7 +16,7 @@ public class NonStaticSample {
     //실행 요청시 1~45까지의 임의의 정수 6개 중복되지 않게 발생시켜 출력하는 메소드
 	public void printLottoNumbers(){
 		int arr[] = new int[6];
-		
+		/*
 		for(int i =0; i<arr.length; i++) {
 			arr[i] = (int)(Math.random()*45)+1;
 			for(int j =0; j<i; j++) {
@@ -24,11 +25,23 @@ public class NonStaticSample {
 				}
 			}
 		}
+		
 		System.out.println("번호:");
 		
 		for(int i=0; i<arr.length; i++) {
 			System.out.println(arr[i]+" ");
 		}
+		*/
+		
+		for(int i = 0; i<6; i++) {
+			int num = (int)(Math.random()*45+1);
+			arr[i]=num;
+			//중복검사
+			for(int j=0; j<i; j++) {
+				if(num==arr[j]) i--;
+			}
+		}
+		System.out.println(Arrays.toString(arr));
 	}
 	
 	
