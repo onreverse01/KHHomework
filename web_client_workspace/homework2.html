@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delivery</title>
+  </head>
+  <body>
+    <form action="">
+      <fieldset>
+        <legend>납품자 정보</legend>
+        <ol>
+          <li>
+            납품자명(필수) :
+            <input type="text" name="userName" id="userName" required />
+          </li>
+          <br />
+          <li>
+            email(필수) :
+            <input
+              type="email"
+              name="memberEmail"
+              id="memberEmail"
+              placeholder="answer@naver.com"
+              required
+            />
+          </li>
+          <br />
+          <li>
+            홈페이지 :
+            <input
+              type="url"
+              name="memberHomepage"
+              id="memberHomepage"
+              value="http://"
+            />
+          </li>
+          <br />
+          <li>
+            지역 :
+            <select>
+              <option>서울</option>
+              <option>대구</option>
+              <option>광주</option>
+              <option>부산</option>
+            </select>
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset>
+        <legend>납품 정보</legend>
+        <ul>
+          <li>
+              상품명(필수) : 
+                <input 
+                type="text"
+                name="productName"
+                id="productName"
+                required
+                />
+          </li>
+          <br />
+          <li>
+              납품수량(필수) : 
+              <input type="number" name="deliveryCount" name="deliveryCount", min="100" placeholder="최소 100" required>
+            </li>
+          <br />
+          <li>
+              납품등급(필수) : 
+              <input type="range" name="deliveryGrade" id="deliveryGrade" required>
+            </li>
+          <br />
+          <li>
+              기타사항 : 
+              <textarea name="etc" id="etc" cols="20" rows="2"></textarea>
+            </li>
+        </ul>
+      </fieldset>
+      <br />
+      <button type="submit">send message</button>
+    </form>
+  </body>
+</html>
