@@ -2,9 +2,7 @@ package board.model.dao;
 
 import static common.JDBCTemplate.close;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,20 +23,17 @@ public class BoardDao {
 		//resource/sql/board-query.properties가 아니라
 		//WEB-INF/clases/sql/board-query.properties에 접근해야함.
 		String fileName = MemberDao.class
-								   .getResource("/sql/board/board-query.properties")
+								   .getResource("/sql/board/borad-query.properties")
 								   .getPath();
 		try {
 			prop.load(new FileReader(fileName));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
 
 	public List<Board> selectList(Connection conn, int start, int end) {
-		Board b = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		List<Board> list = null;
@@ -51,15 +46,15 @@ public class BoardDao {
 			pstmt.setInt(2, end);
 			rset = pstmt.executeQuery();
 			
-			list = new ArrayList<>();
+			list = new ArrayList<>(); //리스트 할당
 			while (rset.next()) {
-				b = new Board();
+				Board b = new Board();
 				b.setNo(rset.getInt("NO"));
 				b.setTitle(rset.getString("TITLE"));
 				b.setWriter(rset.getString("WRITER"));
 				b.setContent(rset.getString("CONTENT"));
 				b.setRegDate(rset.getDate("REG_DATE"));
-				b.setReadCount(rset.getInt("READCOUNT"));
+				b.setReadCount(rset.getInt("READ_COUNT"));
 				
 				list.add(b);
 			}
@@ -69,8 +64,6 @@ public class BoardDao {
 			close(rset);
 			close(pstmt);
 		}
-		
-		
 		return list;
 	}
 
@@ -86,11 +79,11 @@ public class BoardDao {
 			
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
+			
+			while(rset.next()) {
 				totalContents = rset.getInt("cnt");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(rset);

@@ -41,19 +41,22 @@ public class BoardListServlet extends HttpServlet {
 		
 		//2. 업무로직
 		//a. contents영역 : start ~ end
+		//cPage 1, numPerPage 5 -> 1 ~ 5
+		//cPage 2, numPerPage 5 -> 6 ~ 10
 		int start = (cPage - 1) * numPerPage + 1;
 		int end = cPage * numPerPage;
 		
 		List<Board> list = boardService.selectList(start, end);
 		System.out.println("list@servlet = " + list);
 		
+		//b. pageBar 영역
 		int totalContents = boardService.selectBoardCount();
 		System.out.println("totalContents@servlet = " + totalContents);
-		//b. pageBar 영역
 		String url = request.getRequestURI();
 		String pageBar = MvcUtils.getPageBar(cPage, numPerPage, totalContents, url);
 		
 		//3. 응답 html처리 jsp에 위임.
+		request.setAttribute("list", list);
 		request.setAttribute("pageBar", pageBar);
 		request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp")
 			   .forward(request, response);
