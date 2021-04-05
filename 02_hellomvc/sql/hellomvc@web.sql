@@ -107,3 +107,5 @@ select count(*)
 from member M
 where member_id like '%a%';
 
+
+
