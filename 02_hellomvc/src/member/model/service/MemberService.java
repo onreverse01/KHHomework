@@ -79,9 +79,9 @@ public class MemberService {
 		return result;
 	}
 
-	public List<Member> searchMember(Map<String, String> param) {
+	public List<Member> searchMember(Map<String, String> param, int start, int end) {
 		Connection conn = getConnection();
-		List<Member> list = memberDao.selectMember(conn, param);
+		List<Member> list = memberDao.selectMember(conn, param, start, end);
 		close(conn);
 		return list;
 	}
