@@ -79,9 +79,9 @@ public class MemberService {
 		return result;
 	}
 
-	public List<Member> searchMember(Map<String, String> param, int start, int end) {
+	public List<Member> searchMember(Map<String, String> param) {
 		Connection conn = getConnection();
-		List<Member> list = memberDao.selectMember(conn, param, start, end);
+		List<Member> list = memberDao.searchMember(conn, param);
 		close(conn);
 		return list;
 	}
@@ -89,6 +89,13 @@ public class MemberService {
 	public int selectMemberCount() {
 		Connection conn = getConnection();
 		int totalContents = memberDao.selectMemberCount(conn);
+		close(conn);
+		return totalContents;
+	}
+
+	public int searchMemberCount(Map<String, String> param) {
+		Connection conn = getConnection();
+		int totalContents = memberDao.searchMemberCount(conn, param);
 		close(conn);
 		return totalContents;
 	}

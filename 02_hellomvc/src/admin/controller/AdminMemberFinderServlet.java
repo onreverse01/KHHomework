@@ -31,37 +31,45 @@ public class AdminMemberFinderServlet extends HttpServlet {
 		final int numPerPage = 10;
 		int cPage = 1;
 
-		cPage = Integer.parseInt(request.getParameter("cPage"));
-		
-		
+		try {
+			cPage =	Integer.parseInt(request.getParameter("cPage"));
+		} catch (NumberFormatException e) {
+			// 처리 코드 없음. 기본값 1 유지.
+		}
 		
 		String searchType = request.getParameter("searchType");
 		String searchKeyword = request.getParameter("searchKeyword");
+		
 		Map<String, String> param = new HashMap<>();
 		param.put("searchType", searchType);
 		param.put("searchKeyword", searchKeyword);
+		
+		param.put("start", String.valueOf((cPage -1) * numPerPage + 1));
+		param.put("end", String.valueOf(cPage * numPerPage));
 		System.out.println("param@servlet = " + param);
 		
 		
 		//2. 업무 로직
-		int end = cPage * numPerPage + 1;
-		int start = (cPage - 1) * numPerPage + 1;
-		List<Member> list = memberService.searchMember(param, start, end);
+//		int end = cPage * numPerPage + 1;
+//		int start = (cPage - 1) * numPerPage + 1;
+		List<Member> list = memberService.searchMember(param);
 		System.out.println("list@servlet = " + list);
 		
-		int totalContents = memberService.selectMemberCount();
+		int totalContents = memberService.searchMemberCount(param);
 		System.out.println("totalContents@servlet = " + totalContents);
 		
 		//3. pageBar영역 작업
-				String url = request.getRequestURI(); // /mvc/admin/memberList
-				String pageBar = MvcUtils.getPageBar(
-							cPage,
-							numPerPage,
-							totalContents,
-							url
-						);
+		//request.QueryString() ?searchType=memberId&searchKeyword=a&cPage=
+		String url = request.getRequestURI() + "?searchType=" + searchType + "&searchKeyword=" + searchKeyword ;  // /mvc/admin/memberList
+		String pageBar = MvcUtils.getPageBar(
+					cPage,
+					numPerPage,
+					totalContents,
+					url
+				);
 		
 		//3. jsp에 html응답메세지 작성 위임
+		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/views/admin/memberList.jsp")
 			   .forward(request, response);
