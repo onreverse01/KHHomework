@@ -10,7 +10,7 @@
 <section id="board-container">
 	<h2>게시판 </h2>
 	<% if(loginMember != null){ %>
-	<input type="button" value="글쓰기" id="btn-add" onclick="location.herf='<%= request.getContextPath() %>/board/boardForm';" />
+	<input type="button" value="글쓰기" id="btn-add" onclick="location.href='<%= request.getContextPath() %>/board/boardForm';"/>
 	<% } %>
 	<table id="tbl-board">
 		<tr>
