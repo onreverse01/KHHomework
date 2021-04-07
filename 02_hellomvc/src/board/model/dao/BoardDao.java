@@ -162,4 +162,85 @@ public class BoardDao {
 		return result;
 		
 	}
+
+	public Board selectOne(Connection conn, int no) {
+		Board board = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOne");
+		try{
+			//미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			//쿼리문미완성
+			pstmt.setInt(1, no);
+			//쿼리문실행
+			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()){
+				board = new Board();
+				board.setNo(rset.getInt("no"));
+				board.setTitle(rset.getString("title"));
+				board.setWriter(rset.getString("writer"));
+				board.setContent(rset.getString("content"));
+				board.setRegDate(rset.getDate("reg_date"));
+				board.setReadCount(rset.getInt("read_count"));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close(rset);
+			close(pstmt);
+		}
+		return board;
+	}
+	
+	public Attachment selectOneAttachment(Connection conn, int no) {
+		Attachment attach = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOneAttachment");
+		try{
+			//미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			//쿼리문미완성
+			pstmt.setInt(1, no);
+			//쿼리문실행
+			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()){
+				attach = new Attachment();
+				attach.setNo(rset.getInt("no"));
+				attach.setBoardNo(rset.getInt("board_no"));
+				attach.setOriginalFileName(rset.getString("original_filename"));
+				attach.setRenamedFileName(rset.getString("renamed_filename"));
+				attach.setStatus("Y".equals(rset.getString("status")) ?  true : false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close(rset);
+			close(pstmt);
+		}
+		return attach;
+	}
+
+	public int deleteBoard(Connection conn, int no) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteBoard");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("게시물 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

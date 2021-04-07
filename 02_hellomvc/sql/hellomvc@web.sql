@@ -119,18 +119,12 @@ from board b
         on b.no = a.board_no
 order by b.no desc;
 
-select * 
-from (
-    select row_number() over(order by b.no desc) rnum,
-               b.*,
-                a.no attach_no,
-                a.original_filename,
-                a.renamed_filename,
-                a.status
-    from board b
-        left join attachment a
-            on b.no = a.board_no
-    ) b
-where rnum between 6 and 10;
+select * from ( select row_number() over(order by b.no desc) rnum, b.*, a.no attach_no, a.original_filename, a.renamed_filename, a.status from board b left join attachment a on b.no = a.board_no ) b where rnum between 6 and 10;
 
+select * from attachment where board_no = 72 and status = 'Y';
+
+
+delete from board where no = 300;
+
+select * from attachment order by no desc;
 

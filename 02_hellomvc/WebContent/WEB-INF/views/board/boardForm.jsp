@@ -47,7 +47,7 @@ function boardValidate(){
 	<tr>
 		<th>작성자</th>
 		<td>
-			<input type="text" name="writer" value="로그인한 사용자의 아이디값" readonly/>
+			<input type="text" name="writer" value="<%= loginMember.getMemberId() %>" readonly/>
 		</td>
 	</tr>
 	<tr>
