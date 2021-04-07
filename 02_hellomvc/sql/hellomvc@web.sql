@@ -107,5 +107,30 @@ select count(*)
 from member M
 where member_id like '%a%';
 
+-- board를 조회(첨부파일 조회)
+
+select b.*,
+           a.no attach_no,
+           a.original_filename,
+           a.renamed_filename,
+           a.status
+from board b
+    left join attachment a
+        on b.no = a.board_no
+order by b.no desc;
+
+select * 
+from (
+    select row_number() over(order by b.no desc) rnum,
+               b.*,
+                a.no attach_no,
+                a.original_filename,
+                a.renamed_filename,
+                a.status
+    from board b
+        left join attachment a
+            on b.no = a.board_no
+    ) b
+where rnum between 6 and 10;
 
 
