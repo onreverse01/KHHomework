@@ -127,4 +127,8 @@ select * from attachment where board_no = 72 and status = 'Y';
 delete from board where no = 300;
 
 select * from attachment order by no desc;
+ 
+select * from (select row_number() over(order by  B.no desc) rnum, B.* from board B) B where rnum between 6 and 10;
 
+select *
+from board B;

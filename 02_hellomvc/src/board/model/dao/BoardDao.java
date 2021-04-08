@@ -188,7 +188,7 @@ public class BoardDao {
 				board.setReadCount(rset.getInt("read_count"));
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			throw new BoardException("게시물 조회 오류", e);
 		}finally{
 			close(rset);
 			close(pstmt);
@@ -220,7 +220,7 @@ public class BoardDao {
 				attach.setStatus("Y".equals(rset.getString("status")) ?  true : false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			throw new BoardException("첨부파일 조회 오류", e);
 		}finally{
 			close(rset);
 			close(pstmt);
@@ -241,6 +241,26 @@ public class BoardDao {
 		} finally {
 			close(pstmt);
 		}
+		return result;
+	}
+
+	public int updateBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, b.getTitle());
+			pstmt.setString(2, b.getContent());
+			pstmt.setInt(3, b.getNo());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("게시물 등록 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		
 		return result;
 	}
 }

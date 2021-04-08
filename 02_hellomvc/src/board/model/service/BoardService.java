@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import board.model.dao.BoardDao;
+import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
 
@@ -55,9 +56,10 @@ public class BoardService {
 			}
 			commit(conn);
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			rollback(conn);
-			result = 0;
+//			result = 0;
+			throw e;
 		} finally {
 			close(conn);
 		}
@@ -101,6 +103,26 @@ public class BoardService {
 			e.printStackTrace();
 			rollback(conn);
 			throw e; //controller가 예외처리를 결정할 수 있도록 넘김.
+		} finally {
+			close(conn);
+		}
+		return result;
+	}
+
+	public int updateBoard(Board b) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			//1. board update
+			result = boardDao.updateBoard(conn, b);
+			//2. attachment insert
+			if(b.getAttach() != null)
+				result = boardDao.insertAttachment(conn, b.getAttach());
+			
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
 		} finally {
 			close(conn);
 		}

@@ -46,13 +46,7 @@
 			<th>내 용</th>
 			<td><%= board.getContent() %></td>
 		</tr>
-		<% 	if(
-				loginMember != null && 
-				(
-				  loginMember.getMemberId().equals(board.getWriter())
-				  || MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole())
-				)
-			){ %>
+		<% if(editable){ %>
 		<tr>
 			<%-- 작성자와 관리자만 마지막행 수정/삭제버튼이 보일수 있게 할 것 --%>
 			<th colspan="2">
@@ -61,10 +55,11 @@
 			</th>
 		</tr>
 		
-		<% 	} %>
-	<!-- 이부분에 넣어도 되지만 좋은 위치는 아니다. -->
+		<% } %>
+	
 	</table>
 </section>
+
 <% if(editable){ %>
 	<form 
 		action="<%= request.getContextPath() %>/board/boardDelete" 
@@ -73,6 +68,9 @@
 		<input type="hidden" name="no" value="<%= board.getNo() %>" />
 	</form>
 	<script>
+	function updateBoard(){
+		location.href = "<%= request.getContextPath() %>/board/boardUpdate?no=<%= board.getNo() %>";
+	}
 	function deleteBoard(){
 		if(confirm("게시글을 정말 삭제하시겠습니까?")){
 			$(document.boardDelFrm).submit();
