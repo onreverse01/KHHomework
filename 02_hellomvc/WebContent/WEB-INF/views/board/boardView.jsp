@@ -58,6 +58,23 @@
 		<% } %>
 	
 	</table>
+	
+	<hr style="margin-top:30px;" />	
+	
+	<div class="comment-container">
+        <div class="comment-editor">
+            <form action="<%=request.getContextPath()%>/board/boardCommentInsert" method="post" name="boardCommentFrm">
+                <input type="hidden" name="boardNo" value="" />
+                <input type="hidden" name="writer" value="" />
+                <input type="hidden" name="commentLevel" value="1" />
+                <input type="hidden" name="commentRef" value="0" />    
+				<textarea name="content" cols="60" rows="3"></textarea>
+                <button type="submit" id="btn-insert">등록</button>
+            </form>
+        </div>
+		<!--table#tbl-comment-->
+	</div>
+	
 </section>
 
 <% if(editable){ %>

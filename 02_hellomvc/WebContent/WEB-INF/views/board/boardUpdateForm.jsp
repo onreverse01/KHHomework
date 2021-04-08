@@ -57,11 +57,17 @@ $("[name=upFile]").change(function(){
 	console.log($(this).val());
 	if($(this).val() != ""){
 		//파일 선택
-		$("#delFile").prop("checked", true);
+		$("#delFile")
+			.prop("checked", true)
+			.on('click', function(){
+				return false;
+			});
 	}
 	else{
 		//파일 선택 취소
-		$("#delFile").prop("checked", false);
+		$("#delFile")
+			.prop("checked", false)
+			.off('click');
 	}
 });
 

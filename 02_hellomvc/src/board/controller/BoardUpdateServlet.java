@@ -92,6 +92,9 @@ public class BoardUpdateServlet extends HttpServlet {
 			String originalFileName = multipartRequest.getOriginalFileName("upFile");
 			String renameFileName = multipartRequest.getFilesystemName("upFile");;
 			
+			//삭제할 첨부파일번호
+			String attachNo = multipartRequest.getParameter("delFile");
+			System.out.println("attachNo@servlet = " + attachNo);
 			
 			//1번째 방법 게시판 등록실패
 	//		Board b = new Board(0, title, writer, content, null, 0, null);
@@ -105,14 +108,21 @@ public class BoardUpdateServlet extends HttpServlet {
 	
 			if(originalFileName != null) {
 				Attachment attach = new Attachment();
+				attach.setBoardNo(no);
 				attach.setOriginalFileName(originalFileName);
 				attach.setRenamedFileName(renameFileName);
 				b.setAttach(attach);
 			}
 			
-			System.out.println("입력한 게시판정보 : " + b);
-			//2. 업무로직 : db에 insert
-			int result = boardService.updateBoard(b);
+//			System.out.println("입력한 게시판정보 : " + b);
+			//2. 업무로직 :
+			//첨부파일
+			int result = 0;
+			if(attachNo != null)
+				result = boardService.deleteAttachment(attachNo);
+			
+			//db에 update
+			result = boardService.updateBoard(b);
 			String msg = (result > 0) ? "게시글 수정 성공!" : "게시글 수정 실패!";
 	//		String msg = "";
 	//		if(result>0) 

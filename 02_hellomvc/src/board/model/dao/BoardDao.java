@@ -247,7 +247,7 @@ public class BoardDao {
 	public int updateBoard(Connection conn, Board b) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String sql = prop.getProperty("insertBoard");
+		String sql = prop.getProperty("updateBoard");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -256,11 +256,30 @@ public class BoardDao {
 			pstmt.setInt(3, b.getNo());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new BoardException("게시물 등록 오류", e);
+			throw new BoardException("게시물 수정 오류", e);
 		} finally {
 			close(pstmt);
 		}
 		
 		return result;
 	}
+
+	public int deleteAttachment(Connection conn, String attachNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, attachNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("첨부파일 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }

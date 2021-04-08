@@ -128,5 +128,21 @@ public class BoardService {
 		}
 		return result;
 	}
+
+	public int deleteAttachment(String attachNo) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.deleteAttachment(conn, attachNo);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		} finally {
+			close(conn);
+		}
+		
+		return result;
+	}
 	
 }

@@ -96,6 +96,8 @@ public class BoardEnrollServlet extends HttpServlet {
 			b.setWriter(writer);
 			b.setContent(content);
 	
+			//첨부파일이 있는 경우
+			//multipartRequest.getFile("upFile"):File != null
 			if(originalFileName != null) {
 				Attachment attach = new Attachment();
 				attach.setOriginalFileName(originalFileName);
