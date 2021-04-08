@@ -132,3 +132,79 @@ select * from (select row_number() over(order by  B.no desc) rnum, B.* from boar
 
 select *
 from board B;
+
+--댓글 테이블 작성
+create table board_comment (
+    no number,
+    comment_level number default 1,
+    writer varchar2(15),
+    content varchar2(2000),
+    board_no number,
+    comment_ref number,
+    reg_date date default sysdate,
+    constraint pk_board_comment_no primary key(no),
+    constraint fk_board_comment_writer foreign key(writer) 
+                                                                 references member(member_id)
+                                                                 on delete set null,
+    constraint fk_board_comment_board_no foreign key(board_no) 
+                                                                 references board(no)
+                                                                 on delete cascade,
+    constraint fk_board_comment_ref foreign key(comment_ref) 
+                                                                 references board_comment(no)
+                                                                 on delete cascade
+);
+
+drop table board_comment;
+
+comment on column board_comment.no is '게시판댓글번호';
+comment on column board_comment.comment_level is '게시판댓글 레벨';
+comment on column board_comment.writer is '게시판댓글 작성자';
+comment on column board_comment.content is '게시판댓글';
+comment on column board_comment.board_no is '참조원글번호';
+comment on column board_comment.comment_ref is '게시판댓글 참조번호';
+comment on column board_comment.reg_date is '게시판댓글 작성일';
+
+create sequence seq_board_comment_no;
+
+--샘플 테스트
+--227번글
+select * from member;
+--댓글 추가
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 1, 'kongga', '잘 읽었습니다.', 55, null);
+
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 1, 'bandit', '스고이~', 55, null);
+
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 1, 'asdf', 'WOW ㅇㅅㅇ', 55, null);
+
+--대댓글 추가
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 2, 'kongga', '읽어주셔서 감사합니다.', 55, 1);
+
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 2, 'bandit', '거짓말~', 55, 1);
+
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 2, 'asdf', '뻥이야~', 55, 2);
+
+select * from board_comment;
+
+--delete from board_comment where no = 4;
+
+--계층형쿼리
+--기준컬럼을 이용해 행간의 수직구조를 표현한 쿼리
+--start with 최상위 행을 지정
+--connect by 부모행-자식행의 관계 작성. 부모행의 컬럼앞에 prior키워드를 작성
+--level가상컬럼을 사용할 수 있다.
+
+select lpad(' ',(level - 1) * 5) || content,
+           level,
+           bc.*
+from board_comment bc
+start with comment_level = 1
+connect by prior no = comment_ref
+order siblings by reg_date desc;
+
+commit;
