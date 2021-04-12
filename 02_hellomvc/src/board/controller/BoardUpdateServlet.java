@@ -29,9 +29,6 @@ public class BoardUpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/board/boardUpdateForm.jsp")
-			   .forward(request, response);
-		
 		//1.사용자 입력값 
 		int no = Integer.parseInt(request.getParameter("no"));
 				
@@ -83,14 +80,14 @@ public class BoardUpdateServlet extends HttpServlet {
 			
 			int no = Integer.parseInt(multipartRequest.getParameter("no"));
 			String title = multipartRequest.getParameter("title");
-			String writer = multipartRequest.getParameter("writer");
+			String  writer = multipartRequest.getParameter("writer");
 			String content = multipartRequest.getParameter("content");
 			
 	//		String attach = request.getParameter("attach");
 			
 			//업로드한 파일명
 			String originalFileName = multipartRequest.getOriginalFileName("upFile");
-			String renameFileName = multipartRequest.getFilesystemName("upFile");;
+			String renamedFileName = multipartRequest.getFilesystemName("upFile");
 			
 			//삭제할 첨부파일번호
 			String attachNo = multipartRequest.getParameter("delFile");
@@ -100,18 +97,18 @@ public class BoardUpdateServlet extends HttpServlet {
 	//		Board b = new Board(0, title, writer, content, null, 0, null);
 			
 			//2번째 방법
-			Board b = new Board();
-			b.setNo(no);
-			b.setTitle(title);
-			b.setWriter(writer);
-			b.setContent(content);
+			Board board = new Board();
+			board.setNo(no);
+			board.setTitle(title);
+			board.setWriter(writer);
+			board.setContent(content);
 	
 			if(originalFileName != null) {
 				Attachment attach = new Attachment();
 				attach.setBoardNo(no);
 				attach.setOriginalFileName(originalFileName);
-				attach.setRenamedFileName(renameFileName);
-				b.setAttach(attach);
+				attach.setRenamedFileName(renamedFileName);
+				board.setAttach(attach);
 			}
 			
 //			System.out.println("입력한 게시판정보 : " + b);
@@ -122,14 +119,14 @@ public class BoardUpdateServlet extends HttpServlet {
 				result = boardService.deleteAttachment(attachNo);
 			
 			//db에 update
-			result = boardService.updateBoard(b);
+			result = boardService.updateBoard(board);
 			String msg = (result > 0) ? "게시글 수정 성공!" : "게시글 수정 실패!";
 	//		String msg = "";
 	//		if(result>0) 
 	//			msg = "성공적으로 올렸습니다.";
 	//		else
 	//			msg = "게시판 등록 실패";
-			String location = request.getContextPath() + "/board/boardView?no=" + b.getNo();
+			String location = request.getContextPath() + "/board/boardView?no=" + board.getNo();
 			
 			//3. DML요청 : 리다이렉트 & 사용자피드백
 			// /mvc/board/boardList

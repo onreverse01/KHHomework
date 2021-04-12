@@ -58,6 +58,7 @@ public class BoardEnrollServlet extends HttpServlet {
 			
 			//파일명 변경정책 객체
 			//중복파일인 경우, numbering처리
+			//filerename : 20210406191919_123.jpg
 	//		FileRenamePolicy policy = new DefaultFileRenamePolicy();
 			FileRenamePolicy policy = new MvcFileRenamePolicy();
 			
@@ -84,30 +85,30 @@ public class BoardEnrollServlet extends HttpServlet {
 			
 			//업로드한 파일명
 			String originalFileName = multipartRequest.getOriginalFileName("upFile");
-			String renameFileName = multipartRequest.getFilesystemName("upFile");;
+			String renamedFileName = multipartRequest.getFilesystemName("upFile");
 			
 			
 			//1번째 방법 게시판 등록실패
 	//		Board b = new Board(0, title, writer, content, null, 0, null);
 			
 			//2번째 방법
-			Board b = new Board();
-			b.setTitle(title);
-			b.setWriter(writer);
-			b.setContent(content);
+			Board board = new Board();
+			board.setTitle(title);
+			board.setWriter(writer);
+			board.setContent(content);
 	
 			//첨부파일이 있는 경우
 			//multipartRequest.getFile("upFile"):File != null
 			if(originalFileName != null) {
 				Attachment attach = new Attachment();
 				attach.setOriginalFileName(originalFileName);
-				attach.setRenamedFileName(renameFileName);
-				b.setAttach(attach);
+				attach.setRenamedFileName(renamedFileName);
+				board.setAttach(attach);
 			}
 			
-			System.out.println("입력한 게시판정보 : " + b);
+			System.out.println("입력한 게시판정보 : " + board);
 			//2. 업무로직 : db에 insert
-			int result = boardService.insertBoard(b);
+			int result = boardService.insertBoard(board);
 			String msg = (result > 0) ? "성공적으로 올렸습니다." : "게시판 등록 실패!";
 	//		String msg = "";
 	//		if(result>0) 
@@ -116,7 +117,7 @@ public class BoardEnrollServlet extends HttpServlet {
 	//			msg = "게시판 등록 실패";
 			String location = request.getContextPath();
 			location += (result > 0) ?
-							"/board/boardView?no=" + b.getNo() : 
+							"/board/boardView?no=" + board.getNo() : 
 								"/board/boardList";
 			
 			//3. DML요청 : 리다이렉트 & 사용자피드백

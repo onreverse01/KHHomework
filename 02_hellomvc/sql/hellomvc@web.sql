@@ -9,6 +9,8 @@ default tablespace users;
 --권한부여
 grant connect, resource to web;
 
+--drop user web cascade;
+
 --=============================================================
 -- WEB계정
 --=============================================================
@@ -206,5 +208,7 @@ from board_comment bc
 start with comment_level = 1
 connect by prior no = comment_ref
 order siblings by reg_date desc;
+
+--select bc.* from board_comment bc where board_no = ? start with comment_level = 1 connect by prior no = comment_ref order siblings by reg_date
 
 commit;

@@ -30,7 +30,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String location = request.getContextPath();
-		String msg = "";
+		String msg = null;
 		int result = 0;
 		
 		//1. 사용자 입력값 처리 : 기존비밀번호/신규비밀번호 암호화처리 필수
@@ -41,7 +41,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 		
 		//2. 기존비밀번호 비교 : session의 loginMember객체 이용할 것
 		HttpSession session = request.getSession();
-		Member member = (Member)session.getAttribute("loginMember");
+		Member member = (Member) session.getAttribute("loginMember");
 //		System.out.println("member@servlet = " + member);
 		
 		

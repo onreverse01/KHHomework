@@ -6,7 +6,6 @@
 	Board board = (Board)request.getAttribute("board");
 %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/board.css" />
-
 <section id="board-container">
 <h2>게시판 수정</h2>
 <form 
@@ -35,6 +34,8 @@
 			<p style="margin: 5px 0;">
 				<img src="<%= request.getContextPath() %>/images/file.png" width="16px" />
 				<%= board.getAttach().getOriginalFileName() %>
+				<input type="checkbox" name="delFile" id="delFile" value="<%= board.getAttach().getNo() %>"/>
+				<label for="delFile">삭제</label>
 			</p>
 			<% } %>
 		</td>
@@ -62,8 +63,9 @@ $("[name=upFile]").change(function(){
 			.on('click', function(){
 				return false;
 			});
+					
 	}
-	else{
+	else {
 		//파일 선택 취소
 		$("#delFile")
 			.prop("checked", false)

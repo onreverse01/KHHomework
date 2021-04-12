@@ -14,6 +14,7 @@ import java.util.Properties;
 import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 
 public class BoardDao {
 	
@@ -38,7 +39,7 @@ public class BoardDao {
 		ResultSet rset = null;
 //		List<Board> list = null;
 		List<Board> list = new ArrayList<>();
-		String query = prop.getProperty("selectPagedList");
+		String query = prop.getProperty("selectList");
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -48,13 +49,13 @@ public class BoardDao {
 			
 //			list = new ArrayList<>(); //리스트 할당
 			while (rset.next()) {
-				Board b = new Board();
-				b.setNo(rset.getInt("NO"));
-				b.setTitle(rset.getString("TITLE"));
-				b.setWriter(rset.getString("WRITER"));
-				b.setContent(rset.getString("CONTENT"));
-				b.setRegDate(rset.getDate("REG_DATE"));
-				b.setReadCount(rset.getInt("READ_COUNT"));
+				Board board = new Board();
+				board.setNo(rset.getInt("NO"));
+				board.setTitle(rset.getString("TITLE"));
+				board.setWriter(rset.getString("WRITER"));
+				board.setContent(rset.getString("CONTENT"));
+				board.setRegDate(rset.getDate("REG_DATE"));
+				board.setReadCount(rset.getInt("READ_COUNT"));
 				
 				System.out.println(rset.getInt("attach_no"));
 				//첨부파일이 있는 경우
@@ -65,10 +66,10 @@ public class BoardDao {
 					attach.setOriginalFileName(rset.getString("original_filename"));
 					attach.setRenamedFileName(rset.getString("renamed_filename"));
 					attach.setStatus("Y".equals(rset.getString("status")));
-					b.setAttach(attach);
+					board.setAttach(attach);
 				}
 				
-				list.add(b);
+				list.add(board);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,16 +102,16 @@ public class BoardDao {
 		return totalContents;
 	}
 
-	public int insertBoard(Connection conn, Board b) {
+	public int insertBoard(Connection conn, Board board) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = prop.getProperty("insertBoard");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, b.getTitle());
-			pstmt.setString(2, b.getWriter());
-			pstmt.setString(3, b.getContent());
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getWriter());
+			pstmt.setString(3, board.getContent());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new BoardException("게시물 등록 오류", e);
@@ -188,7 +189,7 @@ public class BoardDao {
 				board.setReadCount(rset.getInt("read_count"));
 			}
 		}catch(Exception e){
-			throw new BoardException("게시물 조회 오류", e);
+			e.printStackTrace();
 		}finally{
 			close(rset);
 			close(pstmt);
@@ -244,16 +245,16 @@ public class BoardDao {
 		return result;
 	}
 
-	public int updateBoard(Connection conn, Board b) {
+	public int updateBoard(Connection conn, Board board) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = prop.getProperty("updateBoard");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, b.getTitle());
-			pstmt.setString(2, b.getContent());
-			pstmt.setInt(3, b.getNo());
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getContent());
+			pstmt.setInt(3, board.getNo());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new BoardException("게시물 수정 오류", e);
@@ -280,6 +281,62 @@ public class BoardDao {
 		}
 		
 		return result;
+	}
+
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertBoardComment");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			//(no, comment_level, writer, content, board_no, comment_ref)
+			pstmt.setInt(1, bc.getCommentLevel());
+			pstmt.setString(2, bc.getWriter());
+			pstmt.setString(3, bc.getContent());
+			pstmt.setInt(4, bc.getBoardNo());
+//			pstmt.setInt(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			pstmt.setObject(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("댓글 등록 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public List<BoardComment> selectBoardCommentList(Connection conn, int no) {
+		List<BoardComment> commentList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = prop.getProperty("selectBoardCommentList");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no);
+			
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				BoardComment bc = new BoardComment();
+				bc.setNo(rset.getInt("no"));
+				bc.setCommentLevel(rset.getInt("comment_level"));
+				bc.setWriter(rset.getString("writer"));
+				bc.setContent(rset.getString("content"));
+				bc.setBoardNo(rset.getInt("board_no"));
+				bc.setCommentRef(rset.getInt("comment_ref"));
+				bc.setRegDate(rset.getDate("reg_date"));
+				commentList.add(bc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return commentList;
 	}
 
 }

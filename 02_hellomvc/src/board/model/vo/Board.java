@@ -9,6 +9,7 @@ import java.sql.Date;
  *
  */
 public class Board {
+	
 	private int no;
 	private String title;
 	private String writer;
@@ -16,10 +17,12 @@ public class Board {
 	private Date regDate;
 	private int readCount;
 	private Attachment attach;
+	
 	public Board() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Board(int no, String title, String writer, String content, Date regDate, int readCount, Attachment attach) {
 		super();
 		this.no = no;
@@ -30,6 +33,7 @@ public class Board {
 		this.readCount = readCount;
 		this.attach = attach;
 	}
+	
 	public int getNo() {
 		return no;
 	}
@@ -72,6 +76,7 @@ public class Board {
 	public void setAttach(Attachment attach) {
 		this.attach = attach;
 	}
+	
 	@Override
 	public String toString() {
 		return "Board [no=" + no + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="

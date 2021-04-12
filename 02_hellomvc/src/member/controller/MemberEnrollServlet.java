@@ -33,6 +33,8 @@ public class MemberEnrollServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//1.전송값에 한글이 있을 경우 인코딩처리해야함.
+		//void javax.servlet.ServletRequest.setCharacterEncoding(String arg0) throws UnsupportedEncodingException
 //		request.setCharacterEncoding("utf-8");
 
 		// 2.전송값 꺼내서 변수에 기록하기.

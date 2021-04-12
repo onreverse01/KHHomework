@@ -27,7 +27,7 @@ public class MemberUpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1.한글 깨짐 방지 인코딩처리
 		//void javax.servlet.ServletRequest.setCharacterEncoding(String arg0) throws UnsupportedEncodingException
-//		request.setCharacterEncoding("UTF-8");//대소문자 상관없음. 요청한 view단의 charset값과 동일해야 한다.
+		request.setCharacterEncoding("UTF-8");//대소문자 상관없음. 요청한 view단의 charset값과 동일해야 한다.
 		
 		//2.사용자 입력값 처리
 		//String javax.servlet.ServletRequest.getParameter(String arg0)

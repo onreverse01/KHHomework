@@ -16,7 +16,6 @@ public class BoardComment {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 	public BoardComment(int no, int commentLevel, String writer, String content, int boardNo, int commentRef,
 			Date regDate) {
 		super();
@@ -28,7 +27,6 @@ public class BoardComment {
 		this.commentRef = commentRef;
 		this.regDate = regDate;
 	}
-	
 	public int getNo() {
 		return no;
 	}
@@ -71,7 +69,6 @@ public class BoardComment {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "BoardComment [no=" + no + ", commentLevel=" + commentLevel + ", writer=" + writer + ", content="

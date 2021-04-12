@@ -70,10 +70,10 @@ public class MemberLoginServlet extends HttpServlet {
 			//초단위로 작성
 //			session.setMaxInactiveInterval(30);
 			
+			//saveId : cookie처리
 			Cookie c = new Cookie("saveId", memberId);
 			c.setPath(request.getContextPath()); //path 쿠키를 전송할 url
 			
-			//saveId : cookie처리
 			if(saveId != null) {
 				//saveId 체크시
 				c.setMaxAge(60 * 60 * 24 * 7);//7일짜리 영속쿠키로 지정
@@ -91,9 +91,12 @@ public class MemberLoginServlet extends HttpServlet {
 			//request.setAttribute("loc", request.getContextPath());
 
 		}
+		//이전페이지로 리다이렉트 처리
+		String referer = request.getHeader("Referer");
+		System.out.println("referer@servlet = " + referer);
 		
 		//리다이렉트 : url변경
-		response.sendRedirect(request.getContextPath());
+		response.sendRedirect(referer);
 		
 //		//4. 응답메시지 html
 //		RequestDispatcher reqDispatcher = 

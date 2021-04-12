@@ -32,7 +32,6 @@ public class BoardListServlet extends HttpServlet {
 		//1. 사용자 입력값
 		final int numPerPage = 5;
 		int cPage = 1;
-		
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));
 		} catch (NumberFormatException e) {

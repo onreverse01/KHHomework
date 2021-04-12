@@ -7,9 +7,8 @@
 //이게 잘 작동할까?
 //아니다. 위에서 부터 읽으니까 아래에 있는 것들이 없어서이다.
 $(function(){
-	$(document.boardEnrollFrm).submit(boardValidate);
+	$(document.boardEnrollFrm).submit(boardValidate);	
 });
-
 
 /**
 * boardEnrollFrm 유효성 검사

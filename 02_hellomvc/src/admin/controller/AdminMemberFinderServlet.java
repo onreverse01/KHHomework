@@ -28,22 +28,19 @@ public class AdminMemberFinderServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1. 사용자입력값 처리
+		String searchType = request.getParameter("searchType");
+		String searchKeyword = request.getParameter("searchKeyword");
 		final int numPerPage = 10;
 		int cPage = 1;
-
 		try {
 			cPage =	Integer.parseInt(request.getParameter("cPage"));
 		} catch (NumberFormatException e) {
 			// 처리 코드 없음. 기본값 1 유지.
 		}
 		
-		String searchType = request.getParameter("searchType");
-		String searchKeyword = request.getParameter("searchKeyword");
-		
 		Map<String, String> param = new HashMap<>();
 		param.put("searchType", searchType);
 		param.put("searchKeyword", searchKeyword);
-		
 		param.put("start", String.valueOf((cPage -1) * numPerPage + 1));
 		param.put("end", String.valueOf(cPage * numPerPage));
 		System.out.println("param@servlet = " + param);

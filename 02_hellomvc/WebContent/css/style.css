@@ -98,6 +98,14 @@ ul.main-nav li:hover>a {
 	color: #FFF; /* 글자색*/
 }
 
+/********** content **********/
+section#content {
+	background-color: #F5F5F5;
+	float: left;
+	width: 940px;
+	min-height: 500px;
+}
+
 /* 회원가입페이지 */
     section#enroll-container {text-align:center;}
     section#enroll-container input{margin:3px;}
@@ -106,13 +114,7 @@ ul.main-nav li:hover>a {
     section#enroll-container table td {padding:0 10px; text-align:left;}
 	section#enroll-container sup{color: red;}
 
-/********** content **********/
-section#content {
-	background-color: #F5F5F5;
-	float: left;
-	width: 940px;
-	min-height: 500px;
-}
+
 
 /********** footer **********/
 footer {

@@ -12,6 +12,7 @@ import board.model.dao.BoardDao;
 import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 
 public class BoardService {
 
@@ -35,26 +36,29 @@ public class BoardService {
 	 * 첨부파일 있는 경우, attach객체를 attachment테이블에 등록한다.
 	 * - board등록, attachment등록은 하나의 트랜잭션으로 처리되어야한다.
 	 * - 하나의 Connection에 의해 처리되어야한다.
-	 * @param b
+	 * @param board
 	 * @return
 	 */
-	public int insertBoard(Board b) {
+	public int insertBoard(Board board) {
 		Connection conn = getConnection();
 		int result = 0;
 
 		try {
-			result = boardDao.insertBoard(conn, b);
+			result = boardDao.insertBoard(conn, board);
 			
 			//생성된 board_no를 가져오기
 			int boardNo = boardDao.selectLastBoardNo(conn);
-			System.out.println("boardNo@service = " + boardNo);
+			board.setNo(boardNo);
+
+//			System.out.println("boardNo@service = " + boardNo);
 			
-			if(b.getAttach() != null) {
+			if(board.getAttach() != null) {
 				//참조할 boardNo세팅
-				b.getAttach().setBoardNo(boardNo);
-				result = boardDao.insertAttachment(conn, b.getAttach());
+				board.getAttach().setBoardNo(boardNo);
+				result = boardDao.insertAttachment(conn, board.getAttach());
 			}
 			commit(conn);
+			
 		} catch (Exception e) {
 //			e.printStackTrace();
 			rollback(conn);
@@ -100,7 +104,7 @@ public class BoardService {
 				throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다." + no);
 			commit(conn);
 		} catch(Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			rollback(conn);
 			throw e; //controller가 예외처리를 결정할 수 있도록 넘김.
 		} finally {
@@ -109,23 +113,21 @@ public class BoardService {
 		return result;
 	}
 
-	public int updateBoard(Board b) {
+	public int updateBoard(Board board) {
 		Connection conn = getConnection();
 		int result = 0;
 		try {
 			//1. board update
-			result = boardDao.updateBoard(conn, b);
+			result = boardDao.updateBoard(conn, board);
 			//2. attachment insert
-			if(b.getAttach() != null)
-				result = boardDao.insertAttachment(conn, b.getAttach());
+			if(board.getAttach() != null)
+				result = boardDao.insertAttachment(conn, board.getAttach());
 			
 			commit(conn);
 		} catch (Exception e) {
 			rollback(conn);
 			throw e;
-		} finally {
-			close(conn);
-		}
+		} 
 		return result;
 	}
 
@@ -138,11 +140,28 @@ public class BoardService {
 		} catch (Exception e) {
 			rollback(conn);
 			throw e;
-		} finally {
-			close(conn);
 		}
-		
 		return result;
+	}
+
+	public int insertBoardComment(BoardComment bc) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.insertBoardComment(conn, bc);
+			commit(conn);
+		} catch (Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
+
+	public List<BoardComment> selectBoardCommentList(int no) {
+		Connection conn = getConnection();
+		List<BoardComment> commentList = boardDao.selectBoardCommentList(conn, no);
+		close(conn);
+		return commentList;
 	}
 	
 }

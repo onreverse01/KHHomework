@@ -53,7 +53,6 @@ public class FileDownloadServlet extends HttpServlet {
 		response.setHeader(
 				"Content-Disposition", 
 				"attachment;filename=" + responseFileName
-				
 			);
 		//attach.getOriginalFileName()
 		//c. 파일출력
