@@ -4,11 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 /**
  * 
@@ -50,6 +54,33 @@ public class JDBCTemplate {
 		}
 	}
 
+	/**
+	 * DBCP 이용버전
+	 * 
+	 * Resource등록 - JNDI를 통한 참조
+	 * 
+	 * @return
+	 */
+	public static Connection getConnection() {
+		Connection conn = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			/**
+			 * JNDI구조
+			 * java:/comp/env/ + jdbc/myoracle
+			 */
+			DataSource dataSource = (DataSource) ctx.lookup("java:/comp/env/jdbc/myoracle");
+			conn = dataSource.getConnection();
+			conn.setAutoCommit(false);
+		} catch (NamingException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return conn;
+	}
+	
+	/*
 	public static Connection getConnection() {
 		Connection conn = null;
 		try {
@@ -63,6 +94,7 @@ public class JDBCTemplate {
 		
 		return conn;
 	}
+	*/
 	
 	public static void close(Connection conn) {
 		//7. 자원반납(conn) 

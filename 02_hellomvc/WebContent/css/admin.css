@@ -6,6 +6,16 @@ table#tbl-member th, table#tbl-member td {border:1px solid gray; padding:10px; }
 
 /*페이징 : 페이지바 */
 section#memberList-container div#pageBar{margin-top:10px; text-align:center; background-color:rgba(0, 188, 212, 0.3);}
-section#memberList-container div#pageBar span.cPage{color: #0066ff; margin-right: 5px;}
-section#memberList-container div#pageBar a{margin-right: 5px; text-decoration: none;}
+section#memberList-container div#pageBar span.cPage{color: #0066ff; margin-right: 5px;
+border-radius: 15%;
+    padding: 9px 15px;
+    background-color: white;
+    text-decoration: none;
+    color: white;}
+section#memberList-container div#pageBar a{margin-right: 5px; text-decoration: none;
+border-radius: 15%;
+    padding: 9px 15px;
+    background-color: white;
+    text-decoration: none;
+    color: black;}
 section#memberList-container div#pageBar a:hover {text-decoration: underline;}

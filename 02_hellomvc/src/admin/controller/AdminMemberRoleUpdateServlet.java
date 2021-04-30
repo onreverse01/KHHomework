@@ -41,5 +41,4 @@ public class AdminMemberRoleUpdateServlet extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + "/admin/memberList");
 		
 	}
-
 }

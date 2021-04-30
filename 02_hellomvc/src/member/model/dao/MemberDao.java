@@ -70,11 +70,14 @@ public class MemberDao {
 
 	public int insertMember(Connection conn, Member member) {
 		int result = 0;
+		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertMember");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			result = pstmt.executeUpdate();
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setString(3, member.getMemberName());
@@ -86,7 +89,6 @@ public class MemberDao {
 			pstmt.setString(9, member.getAddress());
 			pstmt.setString(10, member.getHobby());
 			
-			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
