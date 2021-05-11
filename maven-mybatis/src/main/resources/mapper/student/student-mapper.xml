@@ -103,6 +103,22 @@
 		<result column="tel" property="tel"/>
 		<result column="reg_date" property="regDate"/>
 	</resultMap>
+	
+	<update id="updateStudent">
+		update
+			student
+		set
+			name = #{name},
+			tel = #{tel}
+		where
+			no = #{no}
+	</update>
 		
-		
+	<delete id="deleteStudent">
+		delete from
+			student
+		where
+			name = #{name}
+	</delete>
+	
 </mapper>

@@ -17,6 +17,7 @@ public interface StudentDao {
 	Student selectOneStudent(SqlSession session, int no);
 
 	Map<String, Object> selectOneStudentMap(SqlSession session, int no);
+	
 
 
 
