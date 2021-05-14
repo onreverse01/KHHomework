@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="emp">
+	<select id="selectAllEmp" resultType="map">
+		select
+			*
+		from
+			emp
+		order by 
+			emp_id
+	</select>
+	<!-- 
+		1. 테이블명, 컬럼명의 식별자를 표현 ${col} 
+		2. 데이터를 표현 #{value}
+	-->
+	<select id="search1" resultType="map">
+		select
+			*
+		from
+			emp
+		where
+			${searchType} like '%' || #{searchKeyword} || '%'
+	</select>
+	
+	<select id="search2" resultType="map">
+		select 
+			*
+		from (
+				select
+					e.*,
+					decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender
+				from 
+					emp e
+			) e
+		<!-- 
+			where태그 내부에 and/or 먼저오면 제거, 
+			where태그 몸통이 비었다면 where키워드 제거 
+		-->
+		<where> 
+			<if test="gender != null and gender != ''">
+			gender = #{gender}
+			</if>
+			<if test="searchType != null and searchType != ''">
+			and ${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<!-- 
+				CDATA Section
+				xml의 entity문자(예약문자) < > & 등을 문자그대로 사용하고 할때 사용.
+				<![CDATA[문자그대로 처리]]>
+			 -->
+			<if test="salary != null and salary != 0">
+				<if test="salaryCompare != null and salaryCompare != ''">
+					<choose>
+						<when test="salaryCompare == 'ge'">						
+							and salary <![CDATA[ >= ]]> #{salary}
+						</when>
+						<when test="salaryCompare == 'le'">
+							and salary <![CDATA[ <= ]]> #{salary}						
+						</when>
+						<otherwise></otherwise>
+					</choose>
+				</if>
+			</if>
+			<!-- 1. hire_date 문자열로 처리 -->
+			<!-- <if test="hire_date != null and hire_date != ''">
+				<if test="hiredateCompare != null and hiredateCompare != ''">
+					<choose>
+						<when test="hiredateCompare eq 'ge'">
+							and hire_date <![CDATA[ >= ]]> to_date(#{hire_date}, 'yyyy-mm-dd') 
+						</when>
+						<when test="hiredateCompare eq 'le'">
+							and hire_date <![CDATA[ <= ]]> to_date(#{hire_date}, 'yyyy-mm-dd') 						
+						</when>
+					</choose>
+				</if>
+			</if> -->
+			<!-- 2. hireDate 날짜형으로 처리 -->
+			<if test="hireDate != null">
+				<if test="hiredateCompare != null and hiredateCompare != ''">
+					<choose>
+						<when test="hiredateCompare eq 'ge'">
+							and hire_date <![CDATA[ >= ]]> #{hireDate} 
+						</when>
+						<when test="hiredateCompare eq 'le'">
+							and hire_date <![CDATA[ <= ]]> #{hireDate} 						
+						</when>
+					</choose>
+				</if>
+			</if>
+		</where>
+	</select>
+	<select id="selectJobList" resultType="map">
+		select 
+			job_code "jobCode",
+			job_name "jobName"
+		from 
+			job
+	</select>
+	<select id="selectDeptList" resultType="map">
+		select 
+			dept_id "deptId",
+			dept_title "deptTitle"
+		from 
+			dept
+	</select>
+	<select id="search3" resultType="map">
+		select 
+			*
+		from (
+				select
+					e.*,
+					decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender,
+					d.dept_title,
+					j.job_name
+				from 
+					emp e
+					  left join dept d
+					  	on e.dept_code = d.dept_id
+					  left join job j
+					  	on e.job_code = j.job_code
+			) e
+		<where>
+			<if test="jobCodeArr != null">
+			job_code in 
+				<foreach 
+					collection="jobCodeArr" item="jobCode" 
+					open="(" close=")" separator=",">
+					#{jobCode}
+				</foreach>
+			</if>
+			<if test="deptIdList != null">
+			and nvl(dept_code, 'D0') in
+				<foreach 
+					collection="deptIdList" item="deptId"
+					open="(" close=")" separator=",">
+					#{deptId}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectOneEmp" resultType="map">
+		select
+			e.*,
+			(select dept_title from dept where dept_id = e.dept_code) dept_title,
+			(select job_name from job where job_code = e.job_code) job_name
+		from 
+			emp e
+		where 
+			emp_id = #{empId}
+	
+	</select>
+	
+	<!-- <update id="updateEmp">
+		update
+			emp
+		<set>
+			<if test="jobCode != null and jobCode != ''">
+			job_code = #{jobCode},
+			</if>
+			<if test="detpCode != null and deptCode != ''">
+			dept_code = #{deptCode}
+			</if>
+		</set>
+		where
+			emp_id = #{empId}
+	</update> -->
+	<update id="updateEmp">
+		update
+			emp
+		<trim prefix="set" suffixOverrides=",">
+			<if test="jobCode != null and jobCode != ''">
+			job_code = #{jobCode},
+			</if>
+			<if test="deptCode != null and deptCode != ''">
+			dept_code = #{deptCode}
+			</if>
+		</trim>
+		where
+			emp_id = #{empId}
+	</update>
+	
+</mapper>
