@@ -19,6 +19,12 @@ table.tbl-student th{text-align:right;}
 table.tbl-student td{text-align:left;}
 table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 </style>
+<c:if test="${not empty msg}">
+<script>
+alert("${msg}");
+<c:remove var="msg" scope="session"/>
+</script>
+</c:if>
 </head>
 <body>
 	<div id="student-container">
@@ -46,6 +52,7 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 			<p>해당학생이 존재하지 않습니다.</p>
 		</c:if>
 		
+		<c:if test="${not empty student}">
 		<h1>학생 정보 수정</h1>
 		<form 
 			name="studentUpdateFrm"
@@ -78,10 +85,21 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 				</tr>
 			</table>
 		</form>
+		<form methond="POST" name="studentDelFrm" action="${pageContext.request.contextPath}/student/deleteStudent.do">
+			<input type="hidden" name="no" value="${param.no}" />
+		</form>
+		<script>
+		var deleteStudent =() =>{
+			if(confirm("정말 삭제하시겠습니까?")){
+				$(document.sutdentDelFrm).submit();
+			}
+		};
+		</script>
+		</c:if>
 		
 		<hr />
 		
-		<h1>학생 정보 수정</h1>
+		<h1>학생 정보 조회(Map)</h1>
 		<form name="ajaxStudentSearchFrm">
 			<table class="tbl-student">
 				<tr>

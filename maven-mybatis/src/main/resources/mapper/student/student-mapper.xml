@@ -78,6 +78,7 @@
 		<result column="tel" property="tel"/>
 		<result column="reg_date" property="regDate"/>
 	</resultMap>
+	
 	<!-- <select id="selectOneStudentMap" resultType="hashmap">
 		select
 			no "no",
@@ -121,4 +122,21 @@
 			name = #{name}
 	</delete>
 	
+	<select id="selectStudentList" resultType="student">
+		select
+			*
+		from
+			student
+		order by
+			no desc
+	</select>
+	
+	<select id="selectStudentMapList" resultMap="studentMap">
+		select
+			*
+		from
+			student
+		order by
+			no desc
+	</select>
 </mapper>
