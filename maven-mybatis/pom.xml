@@ -5,7 +5,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>maven-mybatis-project</name>
   <description>메이블-마이바티스 학습프로젝트</description>
-  
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
   <dependencies>
 	<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 	<dependency>

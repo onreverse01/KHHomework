@@ -98,8 +98,8 @@ public class DispacherServlet extends HttpServlet {
 				response.sendRedirect(location);
 			}
 			else {
-				// jsp forwarding
-				final String prefix = "/WEB-INF/views";
+				// jsp forwarding (경로지정, 끝에 '/'를 꼭 붙일것)
+				final String prefix = "/WEB-INF/views/";
 				final String suffix = ".jsp";
 				request.getRequestDispatcher(prefix + viewName + suffix)
 					   .forward(request, response);

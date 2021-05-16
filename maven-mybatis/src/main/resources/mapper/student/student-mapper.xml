@@ -70,7 +70,7 @@
 		- column과 property가 동일하다면, 해당 자식 태그는 생략가능
 		- resultMap은 재사용이 가능하다.
 	 -->
-	<resultMap type="student" id="studentMap">
+	<resultMap type="student" id="studentVoMap">
 		<!-- pk컬럼용 -->
 		<id column="no" property="no"/>
 		<!-- 나머지 컬럼용 -->
@@ -90,7 +90,7 @@
 		where 
 			no = #{no}
 	</select> -->
-	<select id="selectOneStudentMap" resultType="studentMap">
+	<select id="selectOneStudentMap" resultMap="studentMap">
 		select
 			*
 		from
